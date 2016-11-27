@@ -208,7 +208,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             numCardsMatched++;
         }
     }
-
     /**
      * Creates a option menu for the user to select options from
      * @param menu menu object

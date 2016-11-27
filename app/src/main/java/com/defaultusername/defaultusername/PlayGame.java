@@ -13,10 +13,12 @@ package com.defaultusername.defaultusername;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridLayout;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -33,6 +35,11 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      * The number of cards for this instance of the game
      */
     private int numCards;
+
+    /**
+     * Number of cards that have been matched
+     */
+    private int numCardsMatched;
 
     /**
      * The card objects needed for the game
@@ -69,8 +76,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      */
     private Card secondCard;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,13 +97,14 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             }
         });
         gridLayout = (GridLayout)findViewById(R.id.game_grid_layout);
+        score = 0;
+        numCardsMatched = 0;
 
         //Gets the number of cards from the previous activity
         numCards = Integer.parseInt(getIntent().getStringExtra("NUMBER_OF_CARDS"));
         cardWords = new String[numCards]; //Allocates memory for the card words
         populateCardWords();
         setGridLayout();
-
     }
 
     /**
@@ -167,9 +173,42 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 gridLayout.addView(tempCard);
             }
         }
+    }
 
+    /**
+     * Creates a option menu for the user to select options from
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
+    /**
+     *
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.menu_new_game:
+                return true;
 
+            case R.id.menu_end_game:
+
+                return true;
+
+            case R.id.menu_music_switch:
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     /**
@@ -191,21 +230,33 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             firstCard.flip();
         }
         //Sets attributes if the card selected is the second card
-        else if(secondCard == null){
+        else if(secondCard == null && currentCard != firstCard){
             secondCard = currentCard;
             secondCard.flip();
 
             //Checks if the first and second card have the same value
             if(firstCard.getValue().equals(secondCard.getValue())){
+                firstCard.setUsed();
+                firstCard = null;
+                secondCard.setUsed();
+                secondCard = null;
+
                 score += 2;
+                numCardsMatched += 2;
+                System.out.println(score);
             }
             else{
                 if(score > 0)
                     score--;
+                System.out.println(score);
+
             }
         }
         else{
             //Do nothing
+        }
+        if(numCardsMatched >= numCards){
+            System.out.println("Game Over");
         }
 
     }

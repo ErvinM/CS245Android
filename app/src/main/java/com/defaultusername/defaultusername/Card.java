@@ -35,6 +35,7 @@ public class Card extends Button {
         isFlipped = false;
         isUsed = false;
 
+//@TODO Fix margins for cards
 
         this.cardValue = cardValue;
         cardBack = AppCompatDrawableManager.get().getDrawable(context, R.drawable.card_back);
@@ -56,7 +57,7 @@ public class Card extends Button {
         return isUsed;
     }
     /**
-     * Sets the Card as used, so it won't be able to be choosen again
+     * Sets the Card as used, so it won't be able to be chosen again
      */
     public void setUsed(){
        isUsed = true;
@@ -97,6 +98,7 @@ public class Card extends Button {
     private void setFace(Drawable face){
         //If the API level is below 16, it uses the depreciated setBackgroundDrawable
         if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN){
+            //noinspection deprecation
             setBackgroundDrawable(face);
         }
         else{

@@ -34,6 +34,11 @@ public class GameApp extends AppCompatActivity{
     private Button startButton;
 
     /**
+     * Button used to navigate to high score screen
+     */
+    private Button highScoreButton;
+
+    /**
      * String storing which choice the user has picked
      */
     private String userChoice;
@@ -58,19 +63,6 @@ public class GameApp extends AppCompatActivity{
         // Apply the adapter to the spinner
         gameSpinner.setAdapter(adapter);
 
-        /*
-        gameSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });/**/
-
         //Attaches button to corresponding button widget
         startButton = (Button)findViewById(R.id.start_button);
         //Specifies an event for the button
@@ -82,6 +74,19 @@ public class GameApp extends AppCompatActivity{
                 Intent intent = new Intent(GameApp.this, PlayGame.class);
                 intent.putExtra("NUMBER_OF_CARDS", userChoice); //allows us to pass number of cards
                 startActivity(intent); //Moves to the game activity
+            }
+        });
+
+        //Attaches high score button to corresponding button widget
+        highScoreButton = (Button)findViewById(R.id.high_score_button);
+        //Sets event for button
+        highScoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Saves the current item in the spinner
+                userChoice = gameSpinner.getSelectedItem().toString();
+
+
             }
         });
 

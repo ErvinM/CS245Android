@@ -18,14 +18,38 @@ import android.support.v7.widget.AppCompatDrawableManager;
 import android.widget.Button;
 import android.widget.GridLayout;
 
-public class Card extends Button {
+public class Card extends Button{
 
+    /**
+     * The row the card is in
+     */
     private int row;
+
+    /**
+     * The column the card is in
+     */
     private int column;
+
+    /**
+     * True if the card is showing the card value
+     */
     private boolean isFlipped;
+
+    /**
+     * True if the card has already been matched with another
+     */
     private boolean isUsed;
+
+    /**
+     * The string on the card
+     */
     private String cardValue;
+
+    /**
+     * Back image of the card
+     */
     private Drawable cardBack;
+
 
     public Card(Context context, String cardValue, int r, int c) {
         super(context);
@@ -35,7 +59,6 @@ public class Card extends Button {
         isFlipped = false;
         isUsed = false;
 
-//@TODO Fix margins for cards
 
         this.cardValue = cardValue;
         cardBack = AppCompatDrawableManager.get().getDrawable(context, R.drawable.card_back);
@@ -44,47 +67,48 @@ public class Card extends Button {
 
         GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(row),
                 GridLayout.spec(column));
-        params.width = (int)getResources().getDisplayMetrics().density * 60;
-        params.height =(int)getResources().getDisplayMetrics().density * 93;
+        params.width = (int) getResources().getDisplayMetrics().density * 60;
+        params.height = (int) getResources().getDisplayMetrics().density * 93;
         setLayoutParams(params);
     }
 
     /**
      * Returns a boolean stating whether or not the card is still in play
+     *
      * @return isUsed
      */
-    public boolean usedState(){
+    public boolean usedState() {
         return isUsed;
-    }
-    /**
-     * Sets the Card as used, so it won't be able to be chosen again
-     */
-    public void setUsed(){
-       isUsed = true;
     }
 
     /**
-    * Returns the word on the front of the card
+     * Sets the Card as used, so it won't be able to be chosen again
+     */
+    public void setUsed() {
+        isUsed = true;
+    }
+
+    /**
+     * Returns the word on the front of the card
+     *
      * @return word on front of the card
-    */
-    public String getValue(){
+     */
+    public String getValue() {
         return cardValue;
     }
 
     /**
      * Called whenever the Card widget is pressed
      */
-    public void flip(){
-        if(isUsed)
+    public void flip() {
+        if (isUsed)
             return;
 
-        else if(isFlipped){
+        else if (isFlipped) {
             setText("");
             isFlipped = false;
             setFace(cardBack);
-        }
-
-        else{
+        } else {
             setFace(cardValue);
             isFlipped = true;
         }
@@ -93,25 +117,28 @@ public class Card extends Button {
 
     /**
      * Overloaded method which sets the card face to the back image
+     *
      * @param face picture assigned to the card
      */
-    private void setFace(Drawable face){
+    private void setFace(Drawable face) {
         //If the API level is below 16, it uses the depreciated setBackgroundDrawable
-        if(android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN){
+        if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN) {
             //noinspection deprecation
             setBackgroundDrawable(face);
-        }
-        else{
+        } else {
             setBackground(face);
         }
     }
 
     /**
      * Overloaded method which sets the card face to the card value
+     *
      * @param face the value of the card
      */
-    private void setFace(String face){
+    private void setFace(String face) {
         setBackgroundResource(0);
         setText(face);
     }
 }
+
+

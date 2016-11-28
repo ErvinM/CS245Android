@@ -11,6 +11,7 @@
  ***************************************/
 package com.defaultusername.defaultusername;
 
+import android.app.Dialog;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,13 +20,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.GridLayout;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.util.Random;
 
@@ -91,15 +88,16 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(firstCard != null){
-                    firstCard.flip();
-                    firstCard = null;
-                }
-                if(secondCard != null){
-                    secondCard.flip();
-                    secondCard = null;
-
-                }
+                highScore();
+//                if(firstCard != null){
+//                    firstCard.flip();
+//                    firstCard = null;
+//                }
+//                if(secondCard != null){
+//                    secondCard.flip();
+//                    secondCard = null;
+//
+//                }
             }
         });
         //Gets the number of cards from the previous activity
@@ -141,21 +139,43 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      * Sets the grid layout for the game activity
      */
     private void setGridLayout(){
+        //Gets the current screen orientation
+        int orientation = getResources().getConfiguration().orientation;
 
-        //Makes even number of rows and columns for any card count that is 10 or lower
-        if(numCards <= 10){
-            rows = 2;
-            columns = numCards / 2;
+        //Sets the rows and columns for different configurations in landscape mode
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE){
+            if (numCards <= 12) {
+                rows = 2;
+                columns = numCards / 2;
+            }
+            else if (numCards % 4 == 0) {
+                columns = 7;
+                rows = 3;
+            }
+            // For 14, and 18 cards
+            else {
+                columns = 6;
+                rows = 3;
+            }
+
         }
-        //Any number > 10 and divisible by 4
-        else if(numCards % 4 == 0){
-            columns = 4;
-            rows = numCards / 4;
-        }
-        // For 14 and 18 cards
-        else{
-            columns = 4;
-            rows = (numCards /4) + 1;
+        //Sets the rows and columns for different configurations in portrait mode
+        else {
+            //Makes even number of rows and columns for any card count that is 10 or lower
+            if (numCards <= 10) {
+                rows = 2;
+                columns = numCards / 2;
+            }
+            //Any number > 10 and divisible by 4
+            else if (numCards % 4 == 0) {
+                columns = 4;
+                rows = numCards / 4;
+            }
+            // For 14 and 18 cards
+            else {
+                columns = 4;
+                rows = (numCards / 4) + 1;
+            }
         }
         gridLayout.setColumnCount(columns);
         gridLayout.setRowCount(rows);
@@ -168,7 +188,16 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 int cardIndex = (r * columns) + c;//More legible index for card array
 
                 //Checks for special cases for 14 and 18 cards
-                if((numCards == 14 || numCards == 18) && (r == rows - 1 && c > 1)){
+                if((numCards == 14 || numCards == 16 || numCards == 20) &&
+                        (r == rows - 1 && c > 1) &&
+                        orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    break; // breaks out of the loop
+                }
+
+                //Checks for special cases for 14 and 18 cards
+                if((numCards == 14 || numCards == 18) &&
+                        (r == rows - 1 && c > 1) &&
+                        orientation == Configuration.ORIENTATION_PORTRAIT){
                     break; // breaks out of the loop
                 }
                 tempCard = new Card(this, cardWords[cardIndex], r, c);
@@ -195,7 +224,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     private void endGame(){
         //Returns from method when all the cards are already flipped
         if(numCardsMatched >= numCards) {
-           //check for highscore
+           //check for high_score_prompt
             highScore();
             //else
             return;
@@ -219,15 +248,11 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     }
     private void highScore()
     {
-        setContentView(R.layout.highscore);
-        EditText name = (EditText) findViewById(R.id.highScore_Name);
-        name.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //Write to file here
-            }
-        });
-
+        // custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.setContentView(R.layout.high_score_prompt);
+        dialog.setTitle("Congradulations");
+        dialog.show();
     }
     /**
      * Creates a option menu for the user to select options from

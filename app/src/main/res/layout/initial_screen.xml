@@ -5,28 +5,14 @@
     android:layout_height="match_parent"
     android:gravity="center">
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:text="@string/start_label_spinner"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:gravity="center"
-            android:id="@+id/HowMany"
-            android:layout_weight="1" />
-
-        <Spinner
-            android:id="@+id/spinner_num_cards"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:layout_weight="1" />
-
-    </LinearLayout>
+    <TextView
+        android:text="@string/high_score_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:gravity="center"
+        android:id="@+id/high_score_greeting"
+        android:layout_weight="1" />
 
     <Button
         android:text="@string/start_button_spinner"

@@ -18,9 +18,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.util.Random;
 
@@ -189,8 +193,12 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      */
     private void endGame(){
         //Returns from method when all the cards are already flipped
-        if(numCardsMatched >= numCards)
+        if(numCardsMatched >= numCards) {
+           //check for highscore
+            highScore();
+            //else
             return;
+        }
         //Flips card if the user has two wrong choices when they end the game
         if(firstCard != null) {
             firstCard.flip();
@@ -207,6 +215,18 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             cards[a].setUsed();
             numCardsMatched++;
         }
+    }
+    private void highScore()
+    {
+        setContentView(R.layout.highscore);
+        EditText name = (EditText) findViewById(R.id.highScore_Name);
+        name.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //Write to file here
+            }
+        });
+
     }
     /**
      * Creates a option menu for the user to select options from

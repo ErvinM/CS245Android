@@ -11,6 +11,7 @@
  ***************************************/
 package com.defaultusername.defaultusername;
 
+import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -290,5 +291,9 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             System.out.println("Game Over");
         }
 
+    }
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
     }
 }

@@ -44,8 +44,8 @@ public class Card extends Button {
 
         GridLayout.LayoutParams params = new GridLayout.LayoutParams(GridLayout.spec(row),
                 GridLayout.spec(column));
-        params.width = (int)getResources().getDisplayMetrics().density * 70;
-        params.height =(int)getResources().getDisplayMetrics().density * 109;
+        params.width = (int)getResources().getDisplayMetrics().density * 60;
+        params.height =(int)getResources().getDisplayMetrics().density * 93;
         setLayoutParams(params);
     }
 

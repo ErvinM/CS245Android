@@ -1,3 +1,14 @@
+/**************************************
+ *   file:HighScoreDialog.java
+ *   @author Ervin Maulas, Joel Woods, Jose Garcia, Alan Chen
+ *   Class: CS 245 - Graphical User Interface
+ *
+ *   Assignment: Android Memory Game
+ *   @version v1.0
+ *   Date Last Modified: 26 November 2016
+ *   Purpose: Creates a class needed for an alert dialog asking for the user's initials
+ *
+ ***************************************/
 package com.defaultusername.defaultusername;
 
 import android.app.AlertDialog;

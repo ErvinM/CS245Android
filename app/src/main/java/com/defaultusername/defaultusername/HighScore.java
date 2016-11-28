@@ -45,16 +45,6 @@ public class HighScore extends AppCompatActivity{
      */
     private String highScoreListName;
 
-    /**
-     *  Stores the initial of the new high score
-     */
-    private String highScoreInitial;
-
-    /**
-     *  Stores the score of the new high score
-     */
-    private int highScoreScore;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //Calls the method from parent class
@@ -92,46 +82,5 @@ public class HighScore extends AppCompatActivity{
 
     }
 
-    private void addToHighScore() {
-        try {
-            highScoreInitial = getIntent().getStringExtra("USER_INITIAL");
-            highScoreScore = Integer.parseInt(getIntent().getStringExtra("SCORE"));
-            int score, position = -1;
-            String tempScore = "";
-            String tempScore2 = "";
-            InputStreamReader reader = new InputStreamReader(getAssets().open(highScoreListName));
-            BufferedReader br = new BufferedReader(reader);
-            for(int i = 0; i < 3; i++) {
-                highScoreList[i] = br.readLine();
-            }
-            br.close();
-            reader.close();
-            for (int i = 0;i < 3; i++) {
-                score = Integer.parseInt(highScoreList[i].substring(4,3));
-                if ( highScoreScore > score ) {
-                    position = i;
-                    break;
-                }
-            }
-            PrintWriter pw = new PrintWriter(highScoreListName);
-            for (int a = 0; a < 3; a++) {
-                if ( a == position ) {
-                    tempScore = highScoreList[a];
-                    highScoreList[a] = highScoreInitial + " " + highScoreScore;
-                }
-                else if ( tempScore != "") {
-                    tempScore2 = tempScore;
-                    tempScore = highScoreList[a];
-                    highScoreList[a] = tempScore2;
-                }
-            }
-            for (String scores : highScoreList) {
-                pw.println(scores);
-            }
-            pw.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
 }

@@ -20,6 +20,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 public class GameApp extends AppCompatActivity{
 
@@ -85,8 +86,9 @@ public class GameApp extends AppCompatActivity{
             public void onClick(View view) {
                 //Saves the current item in the spinner
                 userChoice = gameSpinner.getSelectedItem().toString();
-
-
+                Intent intent = new Intent(GameApp.this, HighScore.class);
+                intent.putExtra("NUMBER_OF_CARDS", userChoice); //allows us to pass number of cards
+                startActivity(intent); //Moves to the high score activity
             }
         });
 

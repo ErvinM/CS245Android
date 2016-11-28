@@ -16,7 +16,7 @@
     <string name="dialog_enter_score">Please enter your initials:</string>
     <string name="dialog_ok">ok</string>
 
-    <string name="high_score_label">High Scores</string>
+    <string name="high_score_label">High Scores: </string>
 
     <string-array name="start_spinner_values">
         <item>4</item>

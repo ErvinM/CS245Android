@@ -251,7 +251,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         // custom dialog
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.high_score_prompt);
-        dialog.setTitle("Congradulations");
         dialog.show();
     }
     /**

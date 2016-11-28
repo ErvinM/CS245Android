@@ -11,33 +11,30 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:text="@string/start_label_spinner"
+            android:text="@string/high_score_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:gravity="center"
-            android:id="@+id/HowMany"
+            android:id="@+id/high_score_string_display"
             android:layout_weight="1" />
 
-        <Spinner
-            android:id="@+id/spinner_num_cards"
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/high_score_number"
             android:layout_weight="1" />
-
     </LinearLayout>
 
-    <Button
-        android:text="@string/start_button_spinner"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/start_button"/>
-    <Button
-        android:text="@string/start_high_score"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/high_score_button"/>
+        android:textSize="20sp"
+        android:gravity="center"
+        android:id="@+id/high_score_names"
+        android:layout_weight="1" />
 
 
 </LinearLayout>

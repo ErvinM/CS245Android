@@ -98,6 +98,9 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      */
     private String highScoreListName;
 
+    private MainFragment music;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -319,7 +322,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             cards[a].setUsed();
             numCardsMatched++;
         }
-        gameOverScreen();
     }
 
     AlertDialog dialog;
@@ -370,24 +372,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 });
             }
         });
-        dialog.show();
-    }
-    /**
-     * Displays an alert dialog letting the user know the game is over
-     */
-    private void gameOverScreen(){
-        score_flag = 1;
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
-        //Overwritten later, so it doesn't do anything
-        builder.setTitle("Game Over")
-                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do nothing
-                    }
-                });
-        // Creates an alert dialog using the builder
-        dialog = builder.create();
         dialog.show();
     }
 
@@ -541,9 +525,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             if(s != -1){
                 highScore(s);
             }
-            else{
-                gameOverScreen();
-            }
 
         }
 
@@ -554,8 +535,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     }
     @Override
     public void onPause(){
-        if(dialog != null)
-            dialog.dismiss();
+
+        dialog.dismiss();
         super.onPause();
     }
 

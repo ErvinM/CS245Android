@@ -10,6 +10,8 @@
 * the music for the game
 ***************************************/
 
+package com.defaultusername.defaultusername;
+
 public class MainFragment extends Fragment
 {
 	private AudioPlayer mPlayer = new AudioPlayer();

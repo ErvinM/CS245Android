@@ -106,20 +106,15 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                score = 75;
-                int s = isHighScore();
-                if(s != -1){
-                    highScore(s);
+                if(firstCard != null){
+                    firstCard.flip();
+                    firstCard = null;
                 }
-//                if(firstCard != null){
-//                    firstCard.flip();
-//                    firstCard = null;
-//                }
-//                if(secondCard != null){
-//                    secondCard.flip();
-//                    secondCard = null;
-//
-//                }
+                if(secondCard != null){
+                    secondCard.flip();
+                    secondCard = null;
+
+                }
             }
         });
         //Gets the number of cards from the previous activity
@@ -268,16 +263,17 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             numCardsMatched++;
         }
     }
+
+    /**
+     * Creates an alert dialog, asking the user for initials
+     * @param index
+     */
     private void highScore(final int index) {
-        // 1. Instantiate an AlertDialog.Builder with its constructor
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.high_score_prompt, null);
 
-
-
-
-        // 2. Chain together various setter methods to set the dialog characteristics
+        //Overwritten later, so it doesn't do anything
         builder.setView(view)
                 .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -285,10 +281,11 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                     }
         });
 
-        // 3. Get the AlertDialog from create()
+        // Creates an alert dialog using the builder
         AlertDialog dialog = builder.create();
         final EditText userInitials = (EditText)view.findViewById(R.id.high_score_initials);
 
+        //Used to overwrite the click for the alert dialog
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
 
             @Override
@@ -459,7 +456,12 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
 
             }
         }
+        //Checks to see if the game is over
         if(numCardsMatched >= numCards){
+            int s = isHighScore();
+            if(s != -1){
+                highScore(s);
+            }
 
         }
 

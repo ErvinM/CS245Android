@@ -124,7 +124,7 @@ public class GameApp extends AppCompatActivity{
             for (int a = 4; a <= 20; a += 2) {
                 tempFileName = (a + fileName);
 
-                if(!doesFileExist(tempFileName)) {
+                if(doesFileExist(tempFileName)) {
                     FileOutputStream fos = openFileOutput(tempFileName, Context.MODE_PRIVATE);
                     fos.write(getFileContents(tempFileName).getBytes());
                     System.out.println(tempFileName + " has been written");

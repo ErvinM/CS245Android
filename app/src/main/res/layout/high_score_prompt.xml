@@ -2,7 +2,7 @@
     android:orientation="vertical"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
-    <TextView
+        <TextView
         android:text="@string/dialog_high_score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -10,6 +10,14 @@
         android:gravity="center"
         android:id="@+id/high_score_greeting"
         android:layout_weight="1" />
+        <TextView
+            android:text="@string/dialog_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:id="@+id/high_score_user_score"
+            android:layout_weight="1" />
     <TextView
         android:text="@string/dialog_enter_score"
         android:layout_width="match_parent"

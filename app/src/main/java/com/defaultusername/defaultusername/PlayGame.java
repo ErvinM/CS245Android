@@ -26,6 +26,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
@@ -343,6 +344,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         dialog = builder.create();
 
         final EditText userInitials = (EditText)view.findViewById(R.id.high_score_initials);
+        TextView scoreLabel = (TextView)view.findViewById(R.id.high_score_user_score);
+        scoreLabel.setText(Integer.toString(score));
 
         //Used to overwrite the click for the alert dialog
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
@@ -368,6 +371,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 });
             }
         });
+
         dialog.show();
     }
 
@@ -545,6 +549,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
 
             }
         }
+        TextView scoreLabel = (TextView)findViewById(R.id.game_user_score);
+        scoreLabel.setText(Integer.toString(score));
         //Checks to see if the game is over
         if(numCardsMatched >= numCards){
             int s = isHighScore();

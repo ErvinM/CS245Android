@@ -168,6 +168,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
 
         if(score_flag == 1)
         {
+            //if you want to load initials initilas is stills saved
+            //savedInstanceState.putSerializable("initials", initials);
             int s = isHighScore();
             if(s != -1){
                 highScore(s);
@@ -280,6 +282,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      */
     private void newGame(){
         score = 0;
+        score_flag = 0;
         numCardsMatched = 0;
         firstCard = secondCard = null;
 

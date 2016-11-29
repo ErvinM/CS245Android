@@ -169,7 +169,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         if(score_flag == 1)
         {
             //if you want to load initials initilas is stills saved
-            //savedInstanceState.putSerializable("initials", initials);
+            //initials = savedInstanceState.getSerializable("initials");
             int s = isHighScore();
             if(s != -1){
                 highScore(s);

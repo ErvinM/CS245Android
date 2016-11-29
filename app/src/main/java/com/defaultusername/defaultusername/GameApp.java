@@ -12,6 +12,7 @@
 
 package com.defaultusername.defaultusername;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -59,6 +60,9 @@ public class GameApp extends AppCompatActivity{
      */
     private ArrayAdapter<CharSequence> adapter;
 
+    static protected MediaPlayer mPlayer;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +108,7 @@ public class GameApp extends AppCompatActivity{
                 startActivity(intent); //Moves to the high score activity
             }
         });
-        MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.test);
+        mPlayer = MediaPlayer.create(this, R.raw.test);
         mPlayer.start();
     }
 
@@ -190,7 +194,10 @@ public class GameApp extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         if(item.getItemId() == R.id.menu_music_switch){
-
+            if(mPlayer.isPlaying())
+                mPlayer.pause();
+            else
+                mPlayer.start();
         return true;
         }
         else{

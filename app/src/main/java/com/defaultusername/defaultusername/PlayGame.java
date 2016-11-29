@@ -470,8 +470,13 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 endGame();
                 return true;
 
-            case R.id.menu_music_switch:
-                return true;
+            case R.id.menu_music_switch:{
+                    if(GameApp.mPlayer.isPlaying())
+                        GameApp.mPlayer.pause();
+                    else
+                        GameApp.mPlayer.start();
+                    return true;
+                }
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -535,8 +540,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     }
     @Override
     public void onPause(){
-
-        dialog.dismiss();
+        if(dialog!=null)
+            dialog.dismiss();
         super.onPause();
     }
 

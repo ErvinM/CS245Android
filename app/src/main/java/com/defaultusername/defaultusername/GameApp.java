@@ -63,6 +63,8 @@ public class GameApp extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //Calls the method from parent class
         setContentView(R.layout.initial_screen);
+        
+        mPlayer = new MediaPlayer(getActivity); //is this correct placement?
 
         populateMemory();
         gameSpinner = (Spinner)findViewById(R.id.spinner_num_cards);

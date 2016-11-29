@@ -14,6 +14,7 @@ package com.defaultusername.defaultusername;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -64,7 +65,7 @@ public class GameApp extends AppCompatActivity{
         super.onCreate(savedInstanceState); //Calls the method from parent class
         setContentView(R.layout.initial_screen);
         
-        mPlayer = new MediaPlayer(getActivity); //is this correct placement?
+        //mPlayer = new MediaPlayer(getActivity); //is this correct placement?
 
         populateMemory();
         gameSpinner = (Spinner)findViewById(R.id.spinner_num_cards);
@@ -103,7 +104,8 @@ public class GameApp extends AppCompatActivity{
                 startActivity(intent); //Moves to the high score activity
             }
         });
-
+        MediaPlayer mPlayer = MediaPlayer.create(this, R.raw.test);
+        mPlayer.start();
     }
 
     /**

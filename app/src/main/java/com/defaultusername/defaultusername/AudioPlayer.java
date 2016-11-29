@@ -10,6 +10,8 @@
 *
 ***************************************/
 package com.defaultusername.defaultusername;
+import android.content.Context;
+import android.media.MediaPlayer;
 
 public class AudioPlayer
 {
@@ -25,7 +27,7 @@ public class AudioPlayer
     }
     public void play(Context c)
     {
-        mPlayer = MediaPlayer.create(c, R.raw.one_small_step);
+        mPlayer = MediaPlayer.create(c, R.raw.test);
         mPlayer.start();
     }
 

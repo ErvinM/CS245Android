@@ -98,7 +98,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      */
     private String highScoreListName;
 
-
+    private MainFragment music;
 
 
     @Override
@@ -132,7 +132,14 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         else{
             newGame();
         }
-
+       /* music.start(this);
+        Button muteButton = (Button) findViewById(R.id.menu_music_switch);
+        muteButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v)
+            {
+                music.stop();
+            }
+        });*/
     }
 
     /**

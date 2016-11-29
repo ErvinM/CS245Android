@@ -12,29 +12,34 @@
 
 package com.defaultusername.defaultusername;
 
+import android.app.Fragment;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+
 public class MainFragment extends Fragment
 {
 	private AudioPlayer mPlayer = new AudioPlayer();
 	private Button muteButton;
 
-	muteButton = (Button)v.findViewById(R.id.hellomoon_muteButton);
-	muteButton.setOnClickListener(
+	@Override
+	public void onCreate(Bundle savedInstanceState)
 	{
-		new View.OnClickListener()
-		{
-			public void on click(View v);
-			{
-				mPlayer.stop();
-			}
-		});
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+
+	}
+	public  void start(Context c)
+	{
+		mPlayer.play(c);
+	}
+	public void stop()
+	{
+		mPlayer.stop();
 	}
 
-	public void onStart()
-	{
-    mPlayer.onStart();
-	}
-
-	public void onResume()
+	/*public void onResume()
   {
      mPlayer.resume();
      if(mPlayer == null)
@@ -44,7 +49,7 @@ public class MainFragment extends Fragment
    }
    public void onPause()
    {
-    	mPlayer.pause(); 
+    	mPlayer.pause();
 	    if(mPlayer != null)
       {
 		    mPlayer.release();
@@ -56,8 +61,8 @@ public class MainFragment extends Fragment
 	 {
       mPlayer.stop();
 	 }
-   
-  public void onDestroy() 
+
+  public void onDestroy()
     {
         mPlayer.stop();
         mPlayer.release();
@@ -65,6 +70,6 @@ public class MainFragment extends Fragment
     public void onCreate()
     {
     	mPlayer.onCreate();
-	    mPlayer = MediaPlayer.create(this, R.raw.one_small_step);  
-    }
+	    mPlayer = MediaPlayer.create(this, R.raw.one_small_step);
+    }*/
 }

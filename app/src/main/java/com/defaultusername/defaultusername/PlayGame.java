@@ -113,18 +113,56 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 if(secondCard != null){
                     secondCard.flip();
                     secondCard = null;
-
                 }
             }
         });
         //Gets the number of cards from the previous activity
         numCards = Integer.parseInt(getIntent().getStringExtra("NUMBER_OF_CARDS"));
-        highScoreListName =  Integer.toString(numCards) + "_high_score.txt";// high score file name
-        cardWords = new String[numCards]; //Allocates memory for the card words
+        cardWords = new String[numCards];
+        //wordPositions = new int[numCards];
         gridLayout = (GridLayout)findViewById(R.id.game_grid_layout);
+        if (savedInstanceState != null){
+            oldGame(savedInstanceState);
+        }
+        else{
+            newGame();
+        }
 
-        newGame();
     }
+
+    /**
+     * Reinitializes values on rotation.
+     * @param savedInstanceState
+     */
+    private void oldGame(Bundle savedInstanceState)
+    {
+        Card temp;
+        score = savedInstanceState.getInt("score");
+        firstCard = (Card)savedInstanceState.getSerializable("first");
+        secondCard = (Card)savedInstanceState.getSerializable("second");
+
+        numCardsMatched = savedInstanceState.getInt("matches");
+        setGridLayout();
+
+        for(int c = 0; c < cards.length; c++) {
+            temp = (Card) savedInstanceState.getSerializable("c" + Integer.toString(c));
+            cards[c].cardValue = temp.cardValue;
+            if(temp.usedState()) {
+                cards[c].reFlip();
+                cards[c].setUsed();
+            }
+            else if(temp.flipState())
+                cards[c].reFlip();
+        }
+        if(firstCard != null)
+            firstCard = cards[firstCard.row * columns + firstCard.column];
+        if(secondCard != null)
+            secondCard = cards[secondCard.row * columns + secondCard.column];
+    }
+
+
+
+
 
     /**
      * Populates word array with card values and randomizes the order
@@ -469,5 +507,26 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+    }
+
+    /**
+     * Saves date on destroy for rotation
+     * @param savedInstanceState
+     */
+    @Override
+    public void onSaveInstanceState(Bundle  savedInstanceState)
+    {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putInt("score", score);
+        savedInstanceState.putInt("cardNum", numCards);
+
+        savedInstanceState.putInt("matches", numCardsMatched);
+
+        savedInstanceState.putSerializable("first", firstCard);
+        savedInstanceState.putSerializable("second", secondCard);
+
+        for(int c = 0; c < cards.length; c++)
+            savedInstanceState.putSerializable("c"+Integer.toString(c), cards[c]);
     }
 }

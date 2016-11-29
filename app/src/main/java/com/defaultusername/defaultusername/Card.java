@@ -17,18 +17,19 @@ import android.graphics.drawable.Drawable;
 import android.support.v7.widget.AppCompatDrawableManager;
 import android.widget.Button;
 import android.widget.GridLayout;
+import java.io.Serializable;
 
-public class Card extends Button{
+public class Card extends Button implements Serializable{
 
     /**
      * The row the card is in
      */
-    private int row;
+    protected int row;
 
     /**
      * The column the card is in
      */
-    private int column;
+    protected int column;
 
     /**
      * True if the card is showing the card value
@@ -43,7 +44,7 @@ public class Card extends Button{
     /**
      * The string on the card
      */
-    private String cardValue;
+    protected String cardValue;
 
     /**
      * Back image of the card
@@ -81,6 +82,10 @@ public class Card extends Button{
         return isUsed;
     }
 
+    public boolean flipState() {
+        return isFlipped;
+    }
+
     /**
      * Sets the Card as used, so it won't be able to be chosen again
      */
@@ -112,7 +117,16 @@ public class Card extends Button{
             setFace(cardValue);
             isFlipped = true;
         }
+    }
 
+    /**
+     * Called when reloading card due to rotation
+     */
+    public void reFlip() {
+        if (isUsed)
+            return;
+        setFace(cardValue);
+        isFlipped = true;
     }
 
     /**
@@ -139,6 +153,8 @@ public class Card extends Button{
         setBackgroundResource(0);
         setText(face);
     }
+
+
 }
 
 

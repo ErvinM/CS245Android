@@ -12,7 +12,6 @@
 package com.defaultusername.defaultusername;
 
 import android.app.Dialog;
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,7 +24,6 @@ import android.widget.GridLayout;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.Random;
 
 public class PlayGame extends AppCompatActivity implements View.OnClickListener {
@@ -79,22 +77,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      * The second card selected by the user
      */
     private Card secondCard;
-
-    /**
-     *  This will store the initials of top 3 highscore from the highscore file.
-     */
-    private String[] highScoreInitials;
-
-    /**
-     * This will store the score of the top 3 highscore from the highscore file
-     */
-    private int[] highScoreScore;
-
-    /**
-     * Stores the name of the file storing the high scores
-     */
-    private String highScoreListName;
-
 
 
     @Override
@@ -271,91 +253,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         dialog.setContentView(R.layout.high_score_prompt);
         dialog.show();
     }
-
-    /**
-     * Check if the current score is a high score comparing against the highscore file.
-     */
-    private boolean isHighScore(int curScore)
-    {
-        try {
-            highScoreListName = Integer.toString(numCards) + "_high_score.txt";// high score file name
-            String line;
-            int highScoreRecord = 3; // 3 records in each highscore file
-            int record = 0;
-            InputStreamReader reader = new InputStreamReader(getAssets().open(highScoreListName));
-            BufferedReader br = new BufferedReader(reader);
-            while ((line = br.readLine()) != null) {
-                String[] vals = line.trim().split("\\s+");
-
-                if (highScoreInitials == null) {
-                    highScoreInitials = new String[highScoreRecord];
-                }
-                if (highScoreScore == null) {
-                    highScoreScore = new int[highScoreRecord];
-                }
-
-                highScoreInitials[record] = vals[0];
-                highScoreScore[record] = Integer.parseInt(vals[1]);
-
-                record++;
-            }
-            br.close();
-            reader.close();
-            for (int scores : highScoreScore) {
-                if (scores > curScore) {
-                    return true;
-                }
-            }
-        } catch ( Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
-
-    /**
-     *  This method will take in the current highscore and inserted into the correct spot in the highscore file
-     */
-    public void writeHighScore(String curHighInitial, int curHighScore)
-    {
-        int position = -1;
-        int tempScore = -1, tempScore2 = -1;
-        String tempInitial2 = "", tempInitial = "";
-        for (int i = 0; i < highScoreScore.length; i++) {
-            if (curHighScore > highScoreScore[i]) {
-                position = i;
-                break;
-            }
-    }
-        try {
-
-            PrintWriter pw = new PrintWriter(highScoreListName);
-            for (int a = 0; a < highScoreScore.length; a++) {
-                if ( a == position ) {
-                    tempScore = highScoreScore[a];
-                    tempInitial = highScoreInitials[a];
-                    highScoreScore[a] = curHighScore;
-                    highScoreInitials[a] = curHighInitial;
-
-                }
-                else if ( tempScore != -1 && tempInitial != "") {
-                    tempScore2 = tempScore;
-                    tempInitial2 = tempInitial;
-                    tempScore = highScoreScore[a];
-                    tempInitial = highScoreInitials[a];
-                    highScoreScore[a] = tempScore2;
-                    highScoreInitials[a] = tempInitial2;
-                }
-            }
-            for(int b = 0; b < highScoreScore.length; b++) {
-                pw.println(highScoreInitials + " " + highScoreScore);
-            }
-            pw.close();
-        }  catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
     /**
      * Creates a option menu for the user to select options from
      * @param menu menu object
@@ -443,5 +340,4 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
-
 }

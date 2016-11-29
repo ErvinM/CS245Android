@@ -15,8 +15,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".PlayGame"/>
-        <activity android:name=".HighScore"/>
+        <activity android:name=".PlayGame"
+            android:parentActivityName=".GameApp"/>
+
+        <activity android:name=".HighScore"
+            android:parentActivityName=".GameApp"/>
+
     </application>
 
 </manifest>

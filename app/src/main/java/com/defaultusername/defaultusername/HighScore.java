@@ -12,6 +12,7 @@
 package com.defaultusername.defaultusername;
 
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -58,6 +59,7 @@ public class HighScore extends AppCompatActivity{
         numScore = (TextView) findViewById(R.id.high_score_number);
         numScore.setText(Integer.toString(numCards));
         scores = (TextView) findViewById(R.id.high_score_names);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         displayHighScore();
     }
@@ -111,6 +113,10 @@ public class HighScore extends AppCompatActivity{
                 item.setChecked(false);
                 GameApp.mPlayer.start();
             }
+            return true;
+        }
+        else if(item.getItemId() == android.R.id.home){
+            NavUtils.navigateUpFromSameTask(this);
             return true;
         }
         else{

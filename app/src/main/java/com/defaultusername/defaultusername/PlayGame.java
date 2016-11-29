@@ -14,6 +14,7 @@ package com.defaultusername.defaultusername;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -124,6 +125,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         cardWords = new String[numCards];
         //wordPositions = new int[numCards];
         gridLayout = (GridLayout)findViewById(R.id.game_grid_layout);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (savedInstanceState != null){
             oldGame(savedInstanceState);
         }
@@ -474,6 +476,9 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle item selection
         switch (item.getItemId()) {
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
             case R.id.menu_new_game:
                 newGame();
                 return true;

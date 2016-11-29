@@ -5,4 +5,5 @@
     <color name="colorAccent">#f9de0e</color>
     <color name="backgroundColor">#56bcf7</color>
     <color name="navigationColor">#f2dc6b</color>
+    <color name="scoreColor">#ffc4f6</color>
 </resources>

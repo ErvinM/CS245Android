@@ -17,6 +17,7 @@
             android:textSize="20sp"
             android:gravity="center"
             android:id="@+id/high_score_string_display"
+            android:textColor="@color/colorAccent"
             android:layout_weight="1" />
 
         <TextView
@@ -25,6 +26,7 @@
             android:textSize="20sp"
             android:gravity="center"
             android:id="@+id/high_score_number"
+            android:textColor="@color/colorAccent"
             android:layout_weight="1" />
     </LinearLayout>
 
@@ -33,6 +35,7 @@
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:gravity="center"
+        android:textColor="@color/scoreColor"
         android:id="@+id/high_score_names"
         android:layout_weight="1" />
 

@@ -27,12 +27,9 @@ import android.widget.EditText;
 import android.widget.GridLayout;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.util.Random;
 
 public class PlayGame extends AppCompatActivity implements View.OnClickListener {

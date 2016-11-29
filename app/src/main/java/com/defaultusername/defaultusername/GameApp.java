@@ -12,7 +12,6 @@
 
 package com.defaultusername.defaultusername;
 
-import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -22,12 +21,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Checkable;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,6 +57,9 @@ public class GameApp extends AppCompatActivity{
      */
     private ArrayAdapter<CharSequence> adapter;
 
+    /**
+     * Object
+     */
     static protected MediaPlayer mPlayer;
 
 
@@ -107,7 +106,9 @@ public class GameApp extends AppCompatActivity{
                 startActivity(intent); //Moves to the high score activity
             }
         });
-        mPlayer = MediaPlayer.create(this, R.raw.test);
+        //mPlayer = MediaPlayer.create(this, R.raw.test);
+        mPlayer = MediaPlayer.create(this, R.raw.surfer_girl);
+        mPlayer.setLooping(true);
         mPlayer.start();
     }
 

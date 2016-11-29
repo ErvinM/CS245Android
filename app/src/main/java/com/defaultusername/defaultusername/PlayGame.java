@@ -38,6 +38,10 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      * The current score for the game
      */
     private int score;
+    /**
+     * The current score for the game
+     */
+    private int score_flag = 0;
 
     /**
      * The number of cards for this instance of the game
@@ -139,6 +143,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     {
         Card temp;
         score = savedInstanceState.getInt("score");
+        score_flag = savedInstanceState.getInt("score_flag");
+
         firstCard = (Card)savedInstanceState.getSerializable("first");
         secondCard = (Card)savedInstanceState.getSerializable("second");
 
@@ -159,10 +165,15 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             firstCard = cards[firstCard.row * columns + firstCard.column];
         if(secondCard != null)
             secondCard = cards[secondCard.row * columns + secondCard.column];
+
+        if(score_flag == 1)
+        {
+            int s = isHighScore();
+            if(s != -1){
+                highScore(s);
+            }
+        }
     }
-
-
-
 
 
     /**
@@ -303,11 +314,13 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         }
     }
 
+    AlertDialog dialog;
     /**
      * Creates an alert dialog, asking the user for initials
      * @param index
      */
     private void highScore(final int index) {
+        score_flag = 1;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = this.getLayoutInflater();
         View view = inflater.inflate(R.layout.high_score_prompt, null);
@@ -321,7 +334,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         });
 
         // Creates an alert dialog using the builder
-        AlertDialog dialog = builder.create();
+        dialog = builder.create();
+
         final EditText userInitials = (EditText)view.findViewById(R.id.high_score_initials);
 
         //Used to overwrite the click for the alert dialog
@@ -509,6 +523,12 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
     }
+    @Override
+    public void onPause(){
+
+        dialog.dismiss();
+        super.onPause();
+    }
 
     /**
      * Saves date on destroy for rotation
@@ -524,8 +544,12 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
 
         savedInstanceState.putInt("matches", numCardsMatched);
 
+        savedInstanceState.putInt("score_flag",score_flag);
+
         savedInstanceState.putSerializable("first", firstCard);
         savedInstanceState.putSerializable("second", secondCard);
+        if(score_flag == 1)
+            savedInstanceState.putSerializable("initials", initials);
 
         for(int c = 0; c < cards.length; c++)
             savedInstanceState.putSerializable("c"+Integer.toString(c), cards[c]);

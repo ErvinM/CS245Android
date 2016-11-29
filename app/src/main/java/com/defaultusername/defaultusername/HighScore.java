@@ -100,9 +100,17 @@ public class HighScore extends AppCompatActivity{
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle item selection
         if(item.getItemId() == R.id.menu_music_switch){
-
+            if(GameApp.mPlayer.isPlaying()) {
+                item.setChecked(true);
+                GameApp.mPlayer.pause();
+            }
+            else {
+                item.setChecked(false);
+                GameApp.mPlayer.start();
+            }
             return true;
         }
         else{

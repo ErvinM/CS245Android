@@ -483,10 +483,14 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 return true;
 
             case R.id.menu_music_switch:{
-                    if(GameApp.mPlayer.isPlaying())
+                    if(GameApp.mPlayer.isPlaying()) {
+                        item.setChecked(true);
                         GameApp.mPlayer.pause();
-                    else
+                    }
+                    else{
+                        item.setChecked(false);
                         GameApp.mPlayer.start();
+                    }
                     return true;
                 }
 

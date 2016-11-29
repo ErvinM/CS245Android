@@ -25,6 +25,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Checkable;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -68,8 +69,6 @@ public class GameApp extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState); //Calls the method from parent class
         setContentView(R.layout.initial_screen);
-        
-        //mPlayer = new MediaPlayer(getActivity); //is this correct placement?
 
         populateMemory();
         gameSpinner = (Spinner)findViewById(R.id.spinner_num_cards);
@@ -192,12 +191,17 @@ public class GameApp extends AppCompatActivity{
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
         // Handle item selection
         if(item.getItemId() == R.id.menu_music_switch){
-            if(mPlayer.isPlaying())
+            if(mPlayer.isPlaying()) {
+                item.setChecked(true);
                 mPlayer.pause();
-            else
+            }
+            else {
+                item.setChecked(false);
                 mPlayer.start();
+            }
         return true;
         }
         else{

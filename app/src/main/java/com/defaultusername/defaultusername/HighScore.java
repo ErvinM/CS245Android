@@ -13,10 +13,12 @@ package com.defaultusername.defaultusername;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
+import java.io.FileInputStream;
 
 public class HighScore extends AppCompatActivity{
     /**
@@ -60,24 +62,51 @@ public class HighScore extends AppCompatActivity{
         displayHighScore();
     }
 
+    /**
+     * Reads names from file, and displays them to the screen
+     */
     private void displayHighScore(){
+        int letter;
+        String tempString = "";
+
         try {
-            InputStreamReader reader = new InputStreamReader(getAssets().open(highScoreListName));
-            BufferedReader br = new BufferedReader(reader);
-            for(int i = 0; i < 3; i++){
-                highScoreList[i] = br.readLine();
+            FileInputStream reader = openFileInput(highScoreListName);
+
+            while((letter = reader.read()) != -1){
+                tempString += Character.toString((char)letter);
             }
-            br.close();
             reader.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String tempString = ""; //Used to store top 3 high scores in string format
-        for(String score : highScoreList){
-            tempString += (score + "\n");
-        }
         scores.setText(tempString);
+    }
+    /**
+     * Creates a option menu for the user to select options from
+     * @param menu menu object
+     * @return boolean
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_initial, menu);
+        return true;
+    }
 
+    /**
+     * Calls a method depending on what menu option is chosen
+     * @param item object
+     * @return boolean
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        if(item.getItemId() == R.id.menu_music_switch){
 
+            return true;
+        }
+        else{
+            return super.onOptionsItemSelected(item);
+        }
     }
 }

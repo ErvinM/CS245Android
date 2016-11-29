@@ -11,19 +11,28 @@
  ***************************************/
 package com.defaultusername.defaultusername;
 
-import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.GridLayout;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
 import java.util.Random;
 
 public class PlayGame extends AppCompatActivity implements View.OnClickListener {
@@ -78,6 +87,18 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      */
     private Card secondCard;
 
+    /**
+     * The user's initials
+     */
+    private String initials;
+
+    /**
+     * Name of the file to write high scores to
+     */
+    private String highScoreListName;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +109,11 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                highScore();
+                score = 75;
+                int s = isHighScore();
+                if(s != -1){
+                    highScore(s);
+                }
 //                if(firstCard != null){
 //                    firstCard.flip();
 //                    firstCard = null;
@@ -102,6 +127,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         });
         //Gets the number of cards from the previous activity
         numCards = Integer.parseInt(getIntent().getStringExtra("NUMBER_OF_CARDS"));
+        highScoreListName =  Integer.toString(numCards) + "_high_score.txt";// high score file name
         cardWords = new String[numCards]; //Allocates memory for the card words
         gridLayout = (GridLayout)findViewById(R.id.game_grid_layout);
 
@@ -225,7 +251,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         //Returns from method when all the cards are already flipped
         if(numCardsMatched >= numCards) {
            //check for high_score_prompt
-            highScore();
             //else
             return;
         }
@@ -246,12 +271,118 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             numCardsMatched++;
         }
     }
-    private void highScore()
-    {
-        // custom dialog
-        final Dialog dialog = new Dialog(this);
-        dialog.setContentView(R.layout.high_score_prompt);
+    private void highScore(final int index) {
+        // 1. Instantiate an AlertDialog.Builder with its constructor
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = this.getLayoutInflater();
+        View view = inflater.inflate(R.layout.high_score_prompt, null);
+
+
+
+
+        // 2. Chain together various setter methods to set the dialog characteristics
+        builder.setView(view)
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do nothing
+                    }
+        });
+
+        // 3. Get the AlertDialog from create()
+        AlertDialog dialog = builder.create();
+        final EditText userInitials = (EditText)view.findViewById(R.id.high_score_initials);
+
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+
+            @Override
+            public void onShow(final DialogInterface dialog) {
+
+                Button okay = ((AlertDialog) dialog).getButton(AlertDialog.BUTTON_POSITIVE);
+                okay.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View view) {
+                        initials = userInitials.getText().toString();
+                        if(initials.length() < 3){
+                            //do nothing
+                        }
+                        else {
+                            addHighScores(index);
+                            dialog.dismiss();
+                        }
+
+                    }
+                });
+            }
+        });
         dialog.show();
+    }
+
+    /**
+     * Adds initials to the high score section
+     */
+    private void addHighScores(int index){
+        String fileContents = fileToString(highScoreListName); //Gets the contents from the file
+        String[] individualContent = fileContents.split("\n");
+
+        if(index > -1 && index < 4){
+            if(index + 1 < 3) {
+                individualContent[index + 1] = individualContent[index];
+            }
+            individualContent[index] = (initials + " " + score);
+        }
+        try {
+            FileOutputStream fos = openFileOutput(highScoreListName, Context.MODE_PRIVATE);
+
+            for(int a = 0; a < 3; a++){
+                System.out.println(individualContent[a]);
+                fos.write((individualContent[a] + "\n").getBytes());
+            }
+            fos.close();
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Checks if the current score is higher than any other score in the high score list
+     * @return index where high score belongs
+     */
+    private int isHighScore(){
+        String fileContents = fileToString(highScoreListName); //Gets the contents from the file
+        String[] individualScores = fileContents.split("\n");//Splits each individual score
+
+        for(int a = 0; a < 3; a++){
+            String[] temp = individualScores[a].split(" ");//Splits individual score into two parts
+            //If the score is greater than a score currently in the list
+            if(score > Integer.parseInt(temp[1])){
+                return a;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Reads the contents of a file in memory, and puts it into a string
+     * @return string version of file contents
+     */
+    private String fileToString(String fileName){
+        int letter; //Individual character
+        String tempString = ""; //Entire file in string form
+
+        try {
+            FileInputStream reader = openFileInput(fileName);
+
+            //Runs while there are characters in the file
+            while((letter = reader.read()) != -1){
+                tempString += Character.toString((char)letter);
+            }
+            reader.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return tempString;
     }
     /**
      * Creates a option menu for the user to select options from
@@ -332,7 +463,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             }
         }
         if(numCardsMatched >= numCards){
-            System.out.println("Game Over");
+
         }
 
     }

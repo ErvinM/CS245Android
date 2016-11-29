@@ -118,6 +118,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         });
         //Gets the number of cards from the previous activity
         numCards = Integer.parseInt(getIntent().getStringExtra("NUMBER_OF_CARDS"));
+        highScoreListName =  Integer.toString(numCards) + "_high_score.txt";// high score file name
         cardWords = new String[numCards];
         //wordPositions = new int[numCards];
         gridLayout = (GridLayout)findViewById(R.id.game_grid_layout);

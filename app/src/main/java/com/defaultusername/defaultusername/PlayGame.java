@@ -98,8 +98,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
      */
     private String highScoreListName;
 
-    private MainFragment music;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,14 +130,6 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         else{
             newGame();
         }
-       /* music.start(this);
-        Button muteButton = (Button) findViewById(R.id.menu_music_switch);
-        muteButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v)
-            {
-                music.stop();
-            }
-        });*/
     }
 
     /**
@@ -212,6 +202,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             cardWords[i] = temp;
         }
     }
+
     /**
      * Sets the grid layout for the game activity
      */
@@ -284,6 +275,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             }
         }
     }
+
     /**
      * Starts a new game for this activity
      */
@@ -296,6 +288,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         populateCardWords();
         setGridLayout();
     }
+
     /**
      * Instantly flips all the cards on the board, ending the game
      */
@@ -322,6 +315,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             cards[a].setUsed();
             numCardsMatched++;
         }
+        gameOverScreen();
     }
 
     AlertDialog dialog;
@@ -375,6 +369,24 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
         dialog.show();
     }
 
+    /**
+     * Displays an alert dialog letting the user know the game is over
+     */
+    private void gameOverScreen(){
+        score_flag = 1;
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+
+        //Overwritten later, so it doesn't do anything
+        builder.setTitle("Game Over")
+                .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //do nothing
+                    }
+                });
+        // Creates an alert dialog using the builder
+        dialog = builder.create();
+        dialog.show();
+    }
     /**
      * Adds initials to the high score section
      */
@@ -470,8 +482,13 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 endGame();
                 return true;
 
-            case R.id.menu_music_switch:
-                return true;
+            case R.id.menu_music_switch:{
+                    if(GameApp.mPlayer.isPlaying())
+                        GameApp.mPlayer.pause();
+                    else
+                        GameApp.mPlayer.start();
+                    return true;
+                }
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -525,7 +542,9 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             if(s != -1){
                 highScore(s);
             }
-
+            else{
+                gameOverScreen();
+            }
         }
 
     }
@@ -535,8 +554,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     }
     @Override
     public void onPause(){
-
-        dialog.dismiss();
+        if(dialog!=null)
+            dialog.dismiss();
         super.onPause();
     }
 

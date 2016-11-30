@@ -106,10 +106,16 @@ public class GameApp extends AppCompatActivity{
                 startActivity(intent); //Moves to the high score activity
             }
         });
-        //mPlayer = MediaPlayer.create(this, R.raw.test);
-        mPlayer = MediaPlayer.create(this, R.raw.surfer_girl);
-        mPlayer.setLooping(true);
-        mPlayer.start();
+        //mPlayer = MediaPlayer.create(this, R.raw.test); &
+        if(mPlayer!=null && mPlayer.isPlaying()) {
+            mPlayer.start();
+        }
+        else if(mPlayer == null)
+        {
+            mPlayer = MediaPlayer.create(this, R.raw.surfer_girl); // Plays Surfer Girl- The Beach Boys
+            mPlayer.setLooping(true);
+            mPlayer.start();
+        }
     }
 
     /**
@@ -124,7 +130,7 @@ public class GameApp extends AppCompatActivity{
             for (int a = 4; a <= 20; a += 2) {
                 tempFileName = (a + fileName);
 
-                if(doesFileExist(tempFileName)) {
+                if(!doesFileExist(tempFileName)) {
                     FileOutputStream fos = openFileOutput(tempFileName, Context.MODE_PRIVATE);
                     fos.write(getFileContents(tempFileName).getBytes());
                     System.out.println(tempFileName + " has been written");

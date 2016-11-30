@@ -150,6 +150,8 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
 
         numCardsMatched = savedInstanceState.getInt("matches");
         setGridLayout();
+        TextView scoreLabel = (TextView)findViewById(R.id.game_user_score);
+        scoreLabel.setText(Integer.toString(score));
 
         for(int c = 0; c < cards.length; c++) {
             temp = (Card) savedInstanceState.getSerializable("c" + Integer.toString(c));
